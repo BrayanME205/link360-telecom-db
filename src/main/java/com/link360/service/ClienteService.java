@@ -57,4 +57,8 @@ public class ClienteService {
         }
         return null;
     }
+
+    public List<Cliente> getAllForDropdown() {
+        return repo.findAllForDropdown();
+    }
 }

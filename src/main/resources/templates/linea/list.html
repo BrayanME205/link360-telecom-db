@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: content}">
+    <body><th:block th:fragment="content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2><i class="bi bi-sim me-2"></i>Líneas Móviles</h2>
+            <a th:href="@{/lineas/nuevo}" class="btn btn-primary"><i class="bi bi-plus-lg me-1"></i>Nueva Línea</a>
+        </div>
+        <div class="card shadow-sm">
+            <div class="card-header"><strong>Líneas Registradas</strong></div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead><tr><th>Número</th><th>Cliente</th><th>Tipo</th><th>Tecnología</th><th>Estado Línea</th><th>SIM</th><th>Activación</th><th>Estado</th><th class="text-center">Acciones</th></tr></thead>
+                        <tbody>
+                            <tr th:if="${#lists.isEmpty(lineas)}"><td colspan="9" class="text-center text-muted py-4">No hay líneas registradas.</td></tr>
+                            <tr th:each="l : ${lineas}">
+                                <td th:text="${l.numeroTelefono}"></td>
+                                <td th:text="${l.nombreCliente}"></td>
+                                <td><span class="badge bg-info text-dark" th:text="${l.tipoLinea}"></span></td>
+                                <td><span th:class="${l.tecnologia=='5G'?'badge bg-success':'badge bg-primary'}" th:text="${l.tecnologia}"></span></td>
+                                <td>
+                                    <span th:class="${l.estadoLinea=='Activa'?'badge bg-success':l.estadoLinea=='Suspendida'?'badge bg-warning text-dark':'badge bg-danger'}"
+                                          th:text="${l.estadoLinea}"></span>
+                                </td>
+                                <td th:text="${l.tipoSIM}"></td>
+                                <td th:text="${#temporals.format(l.fechaActivacion,'dd/MM/yyyy')}"></td>
+                                <td><span th:class="${l.estado=='A'?'badge bg-success':'badge bg-secondary'}" th:text="${l.estado=='A'?'Activo':'Inactivo'}"></span></td>
+                                <td class="text-center">
+                                    <a th:href="@{/lineas/editar/{id}(id=${l.numeroTelefono})}" class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-pencil"></i></a>
+                                    <a th:href="@{/lineas/eliminar/{id}(id=${l.numeroTelefono})}" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer text-muted" th:if="${!#lists.isEmpty(lineas)}">Total: <strong th:text="${#lists.size(lineas)}"></strong> línea(s)</div>
+        </div>
+    </th:block></body></html>

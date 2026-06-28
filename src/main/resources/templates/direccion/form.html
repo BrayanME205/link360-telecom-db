@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: content}">
+    <body><th:block th:fragment="content">
+        <div class="mb-4">
+            <h2><i class="bi bi-geo-alt me-2"></i><span th:text="${modoEdicion}?'Editar Dirección':'Nueva Dirección'"></span></h2>
+            <a th:href="@{/direcciones}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>Volver</a>
+        </div>
+        <div class="card shadow-sm" style="max-width:600px;">
+            <div class="card-header"><strong th:text="${modoEdicion}?'Datos de la Dirección':'Registro de Nueva Dirección'"></strong></div>
+            <div class="card-body">
+                <form th:action="${modoEdicion}?@{/direcciones/editar/{id}(id=${direccion.cedula})}:@{/direcciones/nuevo}"
+                      th:object="${direccion}" method="post">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Cliente <span class="text-danger">*</span></label>
+                        <select class="form-select" th:field="*{cedula}" required th:disabled="${modoEdicion}">
+                            <option value="">-- Seleccione un cliente --</option>
+                            <option th:each="c : ${clientes}"
+                                    th:value="${c.cedula}"
+                                    th:text="${c.cedula} + ' — ' + ${c.nombre} + ' ' + ${c.primerApellido}"
+                                    th:selected="${direccion.cedula == c.cedula}">
+                            </option>
+                        </select>
+                        <input type="hidden" th:if="${modoEdicion}" th:name="cedula" th:value="${direccion.cedula}"/>
+                        <div class="form-text" th:if="${!modoEdicion}">Cada cliente puede tener solo una dirección registrada.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Dirección Física</label>
+                        <textarea class="form-control" th:field="*{direccion}" rows="3" maxlength="255" placeholder="Ej: San José, Escazú, frente al parque"></textarea>
+                        <div class="form-text">La dirección es opcional según el enunciado del sistema.</div>
+                    </div>
+                    <div class="mb-3" th:if="${modoEdicion}">
+                        <label class="form-label fw-bold">Estado</label>
+                        <select class="form-select" th:field="*{estado}">
+                            <option value="A">Activo</option><option value="I">Inactivo</option>
+                        </select>
+                    </div>
+                    <hr/>
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary"><i class="bi bi-save me-1"></i><span th:text="${modoEdicion}?'Guardar Cambios':'Registrar Dirección'"></span></button>
+                        <a th:href="@{/direcciones}" class="btn btn-outline-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </th:block></body></html>

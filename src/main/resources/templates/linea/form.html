@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: content}">
+    <body><th:block th:fragment="content">
+        <div class="mb-4">
+            <h2><i class="bi bi-sim me-2"></i><span th:text="${modoEdicion}?'Editar Línea Móvil':'Nueva Línea Móvil'"></span></h2>
+            <a th:href="@{/lineas}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>Volver</a>
+        </div>
+        <div class="card shadow-sm" style="max-width:700px;">
+            <div class="card-header"><strong th:text="${modoEdicion}?'Datos de la Línea':'Registro de Nueva Línea'"></strong></div>
+            <div class="card-body">
+                <form th:action="${modoEdicion}?@{/lineas/editar/{id}(id=${linea.numeroTelefono})}:@{/lineas/nuevo}"
+                      th:object="${linea}" method="post">
+
+                    <div class="mb-3" th:if="${!modoEdicion}">
+                        <label class="form-label fw-bold">Número de Teléfono <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" th:field="*{numeroTelefono}" required maxlength="20" placeholder="Ej: 8888-8888"/>
+                    </div>
+                    <div class="mb-3" th:if="${modoEdicion}">
+                        <label class="form-label fw-bold">Número de Teléfono</label>
+                        <input type="text" class="form-control" th:value="${linea.numeroTelefono}" readonly/>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Cliente <span class="text-danger">*</span></label>
+                        <select class="form-select" th:field="*{cedula}" required>
+                            <option value="">-- Seleccione un cliente --</option>
+                            <option th:each="c : ${clientes}"
+                                    th:value="${c.cedula}"
+                                    th:text="${c.cedula} + ' — ' + ${c.nombre} + ' ' + ${c.primerApellido}"
+                                    th:selected="${linea.cedula == c.cedula}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Tipo de Línea <span class="text-danger">*</span></label>
+                            <select class="form-select" th:field="*{tipoLinea}" required>
+                                <option value="">-- Seleccione --</option>
+                                <option value="Prepago">Prepago</option>
+                                <option value="Postpago">Postpago</option>
+                                <option value="Empresarial">Empresarial</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Tecnología <span class="text-danger">*</span></label>
+                            <select class="form-select" th:field="*{tecnologia}" required>
+                                <option value="">-- Seleccione --</option>
+                                <option value="4G">4G</option>
+                                <option value="5G">5G</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Estado de Línea <span class="text-danger">*</span></label>
+                            <select class="form-select" th:field="*{estadoLinea}" required>
+                                <option value="">-- Seleccione --</option>
+                                <option value="Activa">Activa</option>
+                                <option value="Suspendida">Suspendida</option>
+                                <option value="Cancelada">Cancelada</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Tipo de SIM <span class="text-danger">*</span></label>
+                            <select class="form-select" th:field="*{tipoSIM}" required>
+                                <option value="">-- Seleccione --</option>
+                                <option value="SIM Fisica">SIM Física</option>
+                                <option value="eSIM">eSIM</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Fecha de Activación <span class="text-danger">*</span></label>
+                        <input type="date" class="form-control" th:field="*{fechaActivacion}" required/>
+                    </div>
+
+                    <div class="mb-3" th:if="${modoEdicion}">
+                        <label class="form-label fw-bold">Estado del Registro</label>
+                        <select class="form-select" th:field="*{estado}">
+                            <option value="A">Activo</option>
+                            <option value="I">Inactivo</option>
+                        </select>
+                    </div>
+
+                    <hr/>
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary"><i class="bi bi-save me-1"></i><span th:text="${modoEdicion}?'Guardar Cambios':'Registrar Línea'"></span></button>
+                        <a th:href="@{/lineas}" class="btn btn-outline-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </th:block></body></html>

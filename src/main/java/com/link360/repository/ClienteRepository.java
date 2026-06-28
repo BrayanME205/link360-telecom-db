@@ -4,11 +4,11 @@ import com.link360.model.Cliente;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
+import static javax.swing.text.html.HTML.Tag.MAP;
 
 @Repository
 public class ClienteRepository {
@@ -93,5 +93,11 @@ public class ClienteRepository {
         Integer count = jdbc.queryForObject(
                 "SELECT COUNT(*) FROM LINEAMOVIL WHERE Cedula = ?", Integer.class, cedula);
         return count != null && count > 0;
+    }
+
+    public List<Cliente> findAllForDropdown() {
+        return jdbc.query(
+                "SELECT * FROM CLIENTE WHERE Estado = 'A' ORDER BY PrimerApellido, Nombre",
+                MAP);
     }
 }

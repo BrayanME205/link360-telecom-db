@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: content}">
+    <body><th:block th:fragment="content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2><i class="bi bi-telephone me-2"></i>Teléfonos de Contacto</h2>
+            <a th:href="@{/telefonos/nuevo}" class="btn btn-primary"><i class="bi bi-plus-lg me-1"></i>Nuevo Teléfono</a>
+        </div>
+        <div class="card shadow-sm">
+            <div class="card-header"><strong>Teléfonos Registrados</strong></div>
+            <div class="card-body p-0">
+                <table class="table table-hover mb-0">
+                    <thead><tr><th>Cliente</th><th>Cédula</th><th>Número</th><th>Estado</th><th class="text-center">Acciones</th></tr></thead>
+                    <tbody>
+                        <tr th:if="${#lists.isEmpty(telefonos)}"><td colspan="5" class="text-center text-muted py-4">No hay teléfonos registrados.</td></tr>
+                        <tr th:each="t : ${telefonos}">
+                            <td th:text="${t.nombreCliente}"></td>
+                            <td th:text="${t.cedula}"></td>
+                            <td th:text="${t.numero}"></td>
+                            <td><span th:class="${t.estado=='A'?'badge bg-success':'badge bg-secondary'}" th:text="${t.estado=='A'?'Activo':'Inactivo'}"></span></td>
+                            <td class="text-center">
+                                <a th:href="@{/telefonos/editar/{cedula}/{numero}(cedula=${t.cedula},numero=${t.numero})}" class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-pencil"></i></a>
+                                <a th:href="@{/telefonos/eliminar/{cedula}/{numero}(cedula=${t.cedula},numero=${t.numero})}" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </th:block></body></html>
