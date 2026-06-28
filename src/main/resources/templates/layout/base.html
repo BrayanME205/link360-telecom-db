@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Link360 Telecom</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
+    <style>
+        body { background-color: #f8f9fa; }
+        .navbar-brand { font-weight: 700; letter-spacing: 1px; }
+        .sidebar { min-height: calc(100vh - 56px); background: #1a252f; }
+        .sidebar .nav-link { color: #adb5bd; padding: .6rem 1rem; border-radius: 6px; margin: 2px 8px; }
+        .sidebar .nav-link:hover, .sidebar .nav-link.active { background: #2c3e50; color: #fff; }
+        .sidebar .nav-section { color: #6c757d; font-size: .75rem; text-transform: uppercase;
+                                letter-spacing: .08em; padding: 1rem 1rem .25rem; }
+        .content-area { padding: 2rem; }
+        .card-header { background: #2c3e50; color: #fff; }
+        .btn-primary { background: #2c3e50; border-color: #2c3e50; }
+        .btn-primary:hover { background: #1a252f; border-color: #1a252f; }
+        .table thead th { background: #2c3e50; color: #fff; }
+        .badge-cascade { background-color: #e67e22; }
+        .badge-restrict { background-color: #e74c3c; }
+        .badge-setnull  { background-color: #3498db; }
+    </style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<nav class="navbar navbar-dark" style="background:#2c3e50;">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">
+            <i class="bi bi-broadcast-pin me-2"></i>Link360 Telecom
+        </a>
+        <span class="navbar-text text-light" style="font-size:.85rem;">
+            Sistema de Gestión de Base de Datos
+        </span>
+    </div>
+</nav>
+
+<div class="d-flex">
+    <!-- SIDEBAR -->
+    <div class="sidebar" style="width:240px; min-width:240px;">
+        <nav class="pt-2">
+
+            <div class="nav-section">Módulo A — Clientes</div>
+            <a th:href="@{/clientes}"
+               th:classappend="${activeMenu == 'clientes'} ? ' active' : ''"
+               class="nav-link"><i class="bi bi-people me-2"></i>Clientes</a>
+            <a th:href="@{/telefonos}"
+               th:classappend="${activeMenu == 'telefonos'} ? ' active' : ''"
+               class="nav-link"><i class="bi bi-telephone me-2"></i>Teléfonos</a>
+            <a th:href="@{/correos}"
+               th:classappend="${activeMenu == 'correos'} ? ' active' : ''"
+               class="nav-link"><i class="bi bi-envelope me-2"></i>Correos</a>
+            <a th:href="@{/direcciones}"
+               th:classappend="${activeMenu == 'direcciones'} ? ' active' : ''"
+               class="nav-link"><i class="bi bi-geo-alt me-2"></i>Direcciones</a>
+            <a th:href="@{/lineas}"
+               th:classappend="${activeMenu == 'lineas'} ? ' active' : ''"
+               class="nav-link"><i class="bi bi-sim me-2"></i>Líneas Móviles</a>
+            <a th:href="@{/paquetes}"
+               th:classappend="${activeMenu == 'paquetes'} ? ' active' : ''"
+               class="nav-link"><i class="bi bi-box me-2"></i>Paquetes</a>
+            <a th:href="@{/historial-paquetes}"
+               th:classappend="${activeMenu == 'historial-paquetes'} ? ' active' : ''"
+               class="nav-link"><i class="bi bi-clock-history me-2"></i>Historial Paquetes</a>
+            <a th:href="@{/facturas}"
+               th:classappend="${activeMenu == 'facturas'} ? ' active' : ''"
+               class="nav-link"><i class="bi bi-receipt me-2"></i>Facturas</a>
+            <a th:href="@{/conceptos-cobro}"
+               th:classappend="${activeMenu == 'conceptos-cobro'} ? ' active' : ''"
+               class="nav-link"><i class="bi bi-list-check me-2"></i>Conceptos de Cobro</a>
+            <a th:href="@{/puntos}"
+               th:classappend="${activeMenu == 'puntos'} ? ' active' : ''"
+               class="nav-link"><i class="bi bi-star me-2"></i>Puntos Fidelización</a>
+            <a th:href="@{/redenciones}"
+               th:classappend="${activeMenu == 'redenciones'} ? ' active' : ''"
+               class="nav-link"><i class="bi bi-gift me-2"></i>Redenciones</a>
+
+            <div class="nav-section">Módulo B — Planes</div>
+            <a th:href="@{/categorias}"
+               th:classappend="${activeMenu == 'categorias'} ? ' active' : ''"
+               class="nav-link"><i class="bi bi-tag me-2"></i>Categorías Comerciales</a>
+            <a th:href="@{/planes}"
+               th:classappend="${activeMenu == 'planes'} ? ' active' : ''"
+               class="nav-link"><i class="bi bi-grid me-2"></i>Planes</a>
+            <a th:href="@{/servicios}"
+               th:classappend="${activeMenu == 'servicios'} ? ' active' : ''"
+               class="nav-link"><i class="bi bi-tools me-2"></i>Servicios</a>
+            <a th:href="@{/consumos}"
+               th:classappend="${activeMenu == 'consumos'} ? ' active' : ''"
+               class="nav-link"><i class="bi bi-bar-chart me-2"></i>Consumos</a>
+            <a th:href="@{/descuentos}"
+               th:classappend="${activeMenu == 'descuentos'} ? ' active' : ''"
+               class="nav-link"><i class="bi bi-percent me-2"></i>Descuentos</a>
+            <a th:href="@{/tipos-promocion}"
+               th:classappend="${activeMenu == 'tipos-promocion'} ? ' active' : ''"
+               class="nav-link"><i class="bi bi-bookmark me-2"></i>Tipos Promoción</a>
+            <a th:href="@{/promociones}"
+               th:classappend="${activeMenu == 'promociones'} ? ' active' : ''"
+               class="nav-link"><i class="bi bi-megaphone me-2"></i>Promociones</a>
+
+            <div class="nav-section">Cruces</div>
+            <a th:href="@{/linea-plan}"
+               th:classappend="${activeMenu == 'linea-plan'} ? ' active' : ''"
+               class="nav-link"><i class="bi bi-link me-2"></i>Línea-Plan</a>
+            <a th:href="@{/linea-servicio}"
+               th:classappend="${activeMenu == 'linea-servicio'} ? ' active' : ''"
+               class="nav-link"><i class="bi bi-link-45deg me-2"></i>Línea-Servicio</a>
+            <a th:href="@{/promo-plan}"
+               th:classappend="${activeMenu == 'promo-plan'} ? ' active' : ''"
+               class="nav-link"><i class="bi bi-arrow-left-right me-2"></i>Promo-Plan</a>
+            <a th:href="@{/promo-servicio}"
+               th:classappend="${activeMenu == 'promo-servicio'} ? ' active' : ''"
+               class="nav-link"><i class="bi bi-arrow-left-right me-2"></i>Promo-Servicio</a>
+            <a th:href="@{/promo-paquete}"
+               th:classappend="${activeMenu == 'promo-paquete'} ? ' active' : ''"
+               class="nav-link"><i class="bi bi-arrow-left-right me-2"></i>Promo-Paquete</a>
+            <a th:href="@{/promo-incompatible}"
+               th:classappend="${activeMenu == 'promo-incompatible'} ? ' active' : ''"
+               class="nav-link"><i class="bi bi-x-circle me-2"></i>Incompat. Promociones</a>
+            <a th:href="@{/desc-incompatible}"
+               th:classappend="${activeMenu == 'desc-incompatible'} ? ' active' : ''"
+               class="nav-link"><i class="bi bi-x-circle me-2"></i>Incompat. Descuentos</a>
+
+            <div class="nav-section">Consultas</div>
+            <a th:href="@{/consultas}"
+               th:classappend="${activeMenu == 'consultas'} ? ' active' : ''"
+               class="nav-link"><i class="bi bi-search me-2"></i>Consultas Elaboradas</a>
+            <a th:href="@{/auditoria}"
+               th:classappend="${activeMenu == 'auditoria'} ? ' active' : ''"
+               class="nav-link"><i class="bi bi-shield-check me-2"></i>Pistas de Auditoría</a>
+        </nav>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="content-area flex-grow-1">
+        <!-- Flash messages -->
+        <div th:if="${successMsg}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle me-2"></i>
+            <span th:text="${successMsg}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        <div th:if="${errorMsg}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-triangle me-2"></i>
+            <span th:text="${errorMsg}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+
+        <!-- Page content injected here -->
+        <th:block th:fragment="content"></th:block>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

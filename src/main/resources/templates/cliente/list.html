@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: content}">
+<body>
+<th:block th:fragment="content">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="bi bi-people me-2"></i>Clientes</h2>
+        <a th:href="@{/clientes/nuevo}" class="btn btn-primary">
+            <i class="bi bi-plus-lg me-1"></i>Nuevo Cliente
+        </a>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <strong>Listado de Clientes Registrados</strong>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>Cédula</th>
+                            <th>Nombre Completo</th>
+                            <th>Fecha Ingreso</th>
+                            <th>Tipo Cliente</th>
+                            <th>Estado</th>
+                            <th class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:if="${#lists.isEmpty(clientes)}">
+                            <td colspan="6" class="text-center text-muted py-4">
+                                No hay clientes registrados.
+                            </td>
+                        </tr>
+                        <tr th:each="c : ${clientes}">
+                            <td th:text="${c.cedula}"></td>
+                            <td th:text="${c.nombre + ' ' + c.primerApellido + (c.segundoApellido != null ? ' ' + c.segundoApellido : '')}"></td>
+                            <td th:text="${#temporals.format(c.fechaIngreso, 'dd/MM/yyyy')}"></td>
+                            <td>
+                                <span class="badge"
+                                      th:classappend="${c.tipoCliente == 'Platino'} ? 'bg-dark'
+                                                    : (${c.tipoCliente == 'Oro'} ? 'bg-warning text-dark'
+                                                    : (${c.tipoCliente == 'Plata'} ? 'bg-secondary'
+                                                    : 'bg-danger'))"
+                                      th:text="${c.tipoCliente}"></span>
+                            </td>
+                            <td>
+                                <span th:if="${c.estado == 'A'}" class="badge bg-success">Activo</span>
+                                <span th:if="${c.estado == 'I'}" class="badge bg-secondary">Inactivo</span>
+                            </td>
+                            <td class="text-center">
+                                <a th:href="@{/clientes/editar/{id}(id=${c.cedula})}"
+                                   class="btn btn-sm btn-outline-primary me-1">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a th:href="@{/clientes/eliminar/{id}(id=${c.cedula})}"
+                                   class="btn btn-sm btn-outline-danger">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer text-muted" th:if="${!#lists.isEmpty(clientes)}">
+            Total: <strong th:text="${#lists.size(clientes)}"></strong> cliente(s)
+        </div>
+    </div>
+
+</th:block>
+</body>
+</html>

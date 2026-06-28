@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: content}">
+<body>
+<th:block th:fragment="content">
+
+    <div class="mb-4">
+        <h2>
+            <i class="bi bi-person me-2"></i>
+            <span th:text="${modoEdicion} ? 'Editar Cliente' : 'Nuevo Cliente'"></span>
+        </h2>
+        <a th:href="@{/clientes}" class="btn btn-sm btn-outline-secondary">
+            <i class="bi bi-arrow-left me-1"></i>Volver al listado
+        </a>
+    </div>
+
+    <div class="card shadow-sm" style="max-width:700px;">
+        <div class="card-header">
+            <strong th:text="${modoEdicion} ? 'Datos del Cliente' : 'Registro de Nuevo Cliente'"></strong>
+        </div>
+        <div class="card-body">
+            <form th:action="${modoEdicion}
+                             ? @{/clientes/editar/{id}(id=${cliente.cedula})}
+                             : @{/clientes/nuevo}"
+                  th:object="${cliente}" method="post">
+
+                <!-- Cédula (solo en creación) -->
+                <div class="mb-3" th:if="${!modoEdicion}">
+                    <label class="form-label fw-bold">Cédula <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" th:field="*{cedula}"
+                           placeholder="Ej: 1-0234-0567" required maxlength="12"/>
+                    <div class="form-text">Número de identificación único del cliente.</div>
+                </div>
+                <div class="mb-3" th:if="${modoEdicion}">
+                    <label class="form-label fw-bold">Cédula</label>
+                    <input type="text" class="form-control" th:value="${cliente.cedula}" readonly/>
+                </div>
+
+                <!-- Nombre -->
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Nombre(s) <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" th:field="*{nombre}"
+                           placeholder="Ej: María" required maxlength="80"/>
+                </div>
+
+                <!-- Primer Apellido -->
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Primer Apellido <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" th:field="*{primerApellido}"
+                               placeholder="Ej: González" required maxlength="80"/>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Segundo Apellido</label>
+                        <input type="text" class="form-control" th:field="*{segundoApellido}"
+                               placeholder="Ej: Mora" maxlength="80"/>
+                    </div>
+                </div>
+
+                <!-- Fecha Ingreso -->
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Fecha de Ingreso <span class="text-danger">*</span></label>
+                    <input type="date" class="form-control" th:field="*{fechaIngreso}" required/>
+                </div>
+
+                <!-- Tipo Cliente -->
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Tipo de Cliente <span class="text-danger">*</span></label>
+                    <select class="form-select" th:field="*{tipoCliente}" required>
+                        <option value="">-- Seleccione --</option>
+                        <option value="Bronce">Bronce</option>
+                        <option value="Plata">Plata</option>
+                        <option value="Oro">Oro</option>
+                        <option value="Platino">Platino</option>
+                    </select>
+                </div>
+
+                <!-- Estado (solo en edición) -->
+                <div class="mb-3" th:if="${modoEdicion}">
+                    <label class="form-label fw-bold">Estado <span class="text-danger">*</span></label>
+                    <select class="form-select" th:field="*{estado}" required>
+                        <option value="A">Activo</option>
+                        <option value="I">Inactivo</option>
+                    </select>
+                </div>
+
+                <hr/>
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-save me-1"></i>
+                        <span th:text="${modoEdicion} ? 'Guardar Cambios' : 'Registrar Cliente'"></span>
+                    </button>
+                    <a th:href="@{/clientes}" class="btn btn-outline-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</th:block>
+</body>
+</html>
