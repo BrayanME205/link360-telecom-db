@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: content}">
+    <body><th:block th:fragment="content">
+        <div class="mb-4">
+            <h2><i class="bi bi-percent me-2"></i><span th:text="${modoEdicion}?'Editar Descuento':'Nuevo Descuento'"></span></h2>
+            <a th:href="@{/descuentos}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>Volver</a>
+        </div>
+        <div class="card shadow-sm" style="max-width:600px;">
+            <div class="card-header"><strong th:text="${modoEdicion}?'Datos del Descuento':'Registro de Nuevo Descuento'"></strong></div>
+            <div class="card-body">
+                <form th:action="${modoEdicion}?@{/descuentos/editar/{id}(id=${descuento.codDescuento})}:@{/descuentos/nuevo}"
+                      th:object="${descuento}" method="post">
+                    <div class="mb-3" th:if="${!modoEdicion}">
+                        <label class="form-label fw-bold">Código <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" th:field="*{codDescuento}" required/>
+                    </div>
+                    <div class="mb-3" th:if="${modoEdicion}">
+                        <label class="form-label fw-bold">Código</label>
+                        <input type="text" class="form-control" th:value="${descuento.codDescuento}" readonly/>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Descripción <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" th:field="*{descripcion}" required maxlength="100" placeholder="Ej: Horario nocturno"/>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Hora Inicio <span class="text-danger">*</span></label>
+                            <input type="time" class="form-control" th:field="*{horaInicio}" required/>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Hora Fin <span class="text-danger">*</span></label>
+                            <input type="time" class="form-control" th:field="*{horaFin}" required/>
+                            <div class="form-text">Debe ser mayor a la hora de inicio.</div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Número de Días (1-7) <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" th:field="*{numDias}" required min="1" max="7"/>
+                    </div>
+                    <div class="mb-3" th:if="${modoEdicion}">
+                        <label class="form-label fw-bold">Estado</label>
+                        <select class="form-select" th:field="*{estado}">
+                            <option value="A">Activo</option><option value="I">Inactivo</option>
+                        </select>
+                    </div>
+                    <hr/>
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary"><i class="bi bi-save me-1"></i><span th:text="${modoEdicion}?'Guardar Cambios':'Registrar Descuento'"></span></button>
+                        <a th:href="@{/descuentos}" class="btn btn-outline-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </th:block></body></html>

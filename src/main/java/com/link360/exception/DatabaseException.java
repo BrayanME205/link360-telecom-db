@@ -13,7 +13,6 @@ public class DatabaseException extends RuntimeException {
         return userMessage;
     }
 
-    
     public static String translate(Exception e) {
         String msg = e.getMessage() != null ? e.getMessage().toLowerCase() : "";
 

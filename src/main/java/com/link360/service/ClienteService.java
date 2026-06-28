@@ -51,9 +51,9 @@ public class ClienteService {
 
     public String getCascadeWarning(String cedula) {
         if (repo.hasLineas(cedula)) {
-            return "Este cliente tiene líneas móviles asociadas. Al eliminarlo se eliminarán también " +
-                   "sus líneas, consumos, facturas, puntos de fidelización, historial de paquetes, " +
-                   "teléfonos de contacto, correos y dirección registrados.";
+            return "Este cliente tiene líneas móviles asociadas. Al eliminarlo se eliminarán también "
+                    + "sus líneas, consumos, facturas, puntos de fidelización, historial de paquetes, "
+                    + "teléfonos de contacto, correos y dirección registrados.";
         }
         return null;
     }

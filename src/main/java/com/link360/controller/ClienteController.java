@@ -37,7 +37,7 @@ public class ClienteController {
 
     @PostMapping("/nuevo")
     public String create(@ModelAttribute Cliente cliente,
-                         RedirectAttributes redirectAttrs) {
+            RedirectAttributes redirectAttrs) {
         try {
             service.create(cliente);
             redirectAttrs.addFlashAttribute("successMsg",
@@ -51,7 +51,7 @@ public class ClienteController {
 
     @GetMapping("/editar/{cedula}")
     public String editForm(@PathVariable String cedula, Model model,
-                           RedirectAttributes redirectAttrs) {
+            RedirectAttributes redirectAttrs) {
         Optional<Cliente> opt = service.getById(cedula);
         if (opt.isEmpty()) {
             redirectAttrs.addFlashAttribute("errorMsg", "Cliente no encontrado.");
@@ -65,8 +65,8 @@ public class ClienteController {
 
     @PostMapping("/editar/{cedula}")
     public String update(@PathVariable String cedula,
-                         @ModelAttribute Cliente cliente,
-                         RedirectAttributes redirectAttrs) {
+            @ModelAttribute Cliente cliente,
+            RedirectAttributes redirectAttrs) {
         cliente.setCedula(cedula);
         try {
             service.update(cliente);
@@ -81,7 +81,7 @@ public class ClienteController {
 
     @GetMapping("/eliminar/{cedula}")
     public String deleteWarning(@PathVariable String cedula, Model model,
-                                RedirectAttributes redirectAttrs) {
+            RedirectAttributes redirectAttrs) {
         Optional<Cliente> opt = service.getById(cedula);
         if (opt.isEmpty()) {
             redirectAttrs.addFlashAttribute("errorMsg", "Cliente no encontrado.");
@@ -96,7 +96,7 @@ public class ClienteController {
 
     @PostMapping("/eliminar/{cedula}")
     public String delete(@PathVariable String cedula,
-                         RedirectAttributes redirectAttrs) {
+            RedirectAttributes redirectAttrs) {
         try {
             service.delete(cedula);
             redirectAttrs.addFlashAttribute("successMsg",

@@ -19,7 +19,6 @@ public class ClienteRepository {
         this.jdbc = jdbc;
     }
 
-    // ── RowMapper ────────────────────────────────────────────────────────────
     private static final RowMapper<Cliente> ROW_MAPPER = (rs, rowNum) -> {
         Cliente c = new Cliente();
         c.setCedula(rs.getString("Cedula"));

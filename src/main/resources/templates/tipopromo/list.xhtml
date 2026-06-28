@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: content}">
+    <body><th:block th:fragment="content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2><i class="bi bi-bookmark me-2"></i>Tipos de Promoción</h2>
+            <a th:href="@{/tipos-promocion/nuevo}" class="btn btn-primary"><i class="bi bi-plus-lg me-1"></i>Nuevo Tipo</a>
+        </div>
+        <div class="card shadow-sm">
+            <div class="card-header"><strong>Catálogo de Tipos de Promoción</strong></div>
+            <div class="card-body p-0">
+                <table class="table table-hover mb-0">
+                    <thead><tr><th>Tipo</th><th>Nombre</th><th>% Máximo</th><th>Estado</th><th class="text-center">Acciones</th></tr></thead>
+                    <tbody>
+                        <tr th:if="${#lists.isEmpty(tipos)}"><td colspan="5" class="text-center text-muted py-4">No hay tipos de promoción registrados.</td></tr>
+                        <tr th:each="t : ${tipos}">
+                            <td th:text="${t.tipoPromo}"></td>
+                            <td th:text="${t.nombreTipo}"></td>
+                            <td th:text="${t.porcentajeMaximo} + '%'"></td>
+                            <td><span th:class="${t.estado=='A'?'badge bg-success':'badge bg-secondary'}" th:text="${t.estado=='A'?'Activo':'Inactivo'}"></span></td>
+                            <td class="text-center">
+                                <a th:href="@{/tipos-promocion/editar/{id}(id=${t.tipoPromo})}" class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-pencil"></i></a>
+                                <a th:href="@{/tipos-promocion/eliminar/{id}(id=${t.tipoPromo})}" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </th:block></body></html>

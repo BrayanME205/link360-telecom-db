@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Cliente {
+
     private String cedula;
     private String nombre;
     private String primerApellido;
@@ -111,6 +112,5 @@ public class Cliente {
     public void setEstado(String estado) {
         this.estado = estado;
     }
-    
-    
+
 }

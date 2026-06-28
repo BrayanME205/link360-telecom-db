@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: content}">
+    <body><th:block th:fragment="content">
+        <div class="mb-4">
+            <h2><i class="bi bi-tag me-2"></i><span th:text="${modoEdicion}?'Editar Categoría':'Nueva Categoría'"></span></h2>
+            <a th:href="@{/categorias}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>Volver</a>
+        </div>
+        <div class="card shadow-sm" style="max-width:600px;">
+            <div class="card-header"><strong th:text="${modoEdicion}?'Datos de la Categoría':'Registro de Nueva Categoría'"></strong></div>
+            <div class="card-body">
+                <form th:action="${modoEdicion}?@{/categorias/editar/{id}(id=${categoria.codCategoria})}:@{/categorias/nuevo}"
+                      th:object="${categoria}" method="post">
+                    <div class="mb-3" th:if="${!modoEdicion}">
+                        <label class="form-label fw-bold">Código <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" th:field="*{codCategoria}" required/>
+                    </div>
+                    <div class="mb-3" th:if="${modoEdicion}">
+                        <label class="form-label fw-bold">Código</label>
+                        <input type="text" class="form-control" th:value="${categoria.codCategoria}" readonly/>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Descripción <span class="text-danger">*</span></label>
+                        <textarea class="form-control" th:field="*{descripcion}" rows="3" required maxlength="255"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Velocidad Máxima <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" th:field="*{velocidadMaxima}" placeholder="Ej: 100 Mbps" required maxlength="20"/>
+                    </div>
+                    <div class="mb-3" th:if="${modoEdicion}">
+                        <label class="form-label fw-bold">Estado</label>
+                        <select class="form-select" th:field="*{estado}">
+                            <option value="A">Activo</option><option value="I">Inactivo</option>
+                        </select>
+                    </div>
+                    <hr/>
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary"><i class="bi bi-save me-1"></i><span th:text="${modoEdicion}?'Guardar Cambios':'Registrar Categoría'"></span></button>
+                        <a th:href="@{/categorias}" class="btn btn-outline-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </th:block></body></html>
