@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: content}">
+    <body><th:block th:fragment="content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2><i class="bi bi-bar-chart me-2"></i>Consumos</h2>
+            <div class="d-flex gap-2">
+                <a th:href="@{/consumos/nuevo}" class="btn btn-primary"><i class="bi bi-plus-lg me-1"></i>Nuevo Consumo</a>
+                <div class="dropdown">
+                    <button class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown">Subtipos</button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" th:href="@{/consumos/voz}">Voz</a></li>
+                        <li><a class="dropdown-item" th:href="@{/consumos/sms}">SMS</a></li>
+                        <li><a class="dropdown-item" th:href="@{/consumos/datos}">Datos</a></li>
+                        <li><a class="dropdown-item" th:href="@{/consumos/roaming}">Roaming</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="card shadow-sm">
+            <div class="card-header"><strong>Consumos Registrados</strong></div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead><tr><th>#</th><th>Línea</th><th>Tipo</th><th>Inicio</th><th>Cantidad</th><th>Costo</th><th>Ámbito</th><th>Estado</th><th class="text-center">Acciones</th></tr></thead>
+                        <tbody>
+                            <tr th:if="${#lists.isEmpty(consumos)}"><td colspan="9" class="text-center text-muted py-4">No hay consumos registrados.</td></tr>
+                            <tr th:each="c : ${consumos}">
+                                <td th:text="${c.codConsumo}"></td>
+                                <td th:text="${c.numeroTelefono}"></td>
+                                <td><span class="badge bg-info text-dark" th:text="${c.tipoConsumo}"></span></td>
+                                <td th:text="${#temporals.format(c.fechaHoraInicio,'dd/MM/yyyy HH:mm')}"></td>
+                                <td th:text="${c.cantidad}"></td>
+                                <td th:text="'₡' + ${c.costoCalculado}"></td>
+                                <td th:text="${c.ambito}"></td>
+                                <td><span th:class="${c.estado=='A'?'badge bg-success':'badge bg-secondary'}" th:text="${c.estado=='A'?'Activo':'Inactivo'}"></span></td>
+                                <td class="text-center">
+                                    <a th:href="@{/consumos/editar/{id}(id=${c.codConsumo})}" class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-pencil"></i></a>
+                                    <a th:href="@{/consumos/eliminar/{id}(id=${c.codConsumo})}" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </th:block></body></html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: content}">
+    <body><th:block th:fragment="content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2><i class="bi bi-bar-chart me-2"></i>Consumos <span th:text="${subtipo}"></span></h2>
+            <div class="d-flex gap-2">
+                <a th:href="@{'/consumos/' + ${subtipo.toLowerCase()} + '/nuevo'}" class="btn btn-primary"><i class="bi bi-plus-lg me-1"></i>Nuevo</a>
+                <a th:href="@{/consumos}" class="btn btn-outline-secondary">Ver todos los consumos</a>
+            </div>
+        </div>
+        <div class="card shadow-sm">
+            <div class="card-body p-0">
+                <table class="table table-hover mb-0">
+                    <thead><tr><th>Cod.Consumo</th><th>Descripción</th><th>Estado</th><th class="text-center">Acciones</th></tr></thead>
+                    <tbody>
+                        <tr th:if="${#lists.isEmpty(consumosSms)}"><td colspan="4" class="text-center text-muted py-4">No hay registros.</td></tr>
+                        <tr th:each="s : ${consumosSms}">
+                            <td th:text="${s.codConsumo}"></td>
+                            <td th:text="${s.descripcion}"></td>
+                            <td><span th:class="${s.estado=='A'?'badge bg-success':'badge bg-secondary'}" th:text="${s.estado=='A'?'Activo':'Inactivo'}"></span></td>
+                            <td class="text-center">
+                                <form th:action="@{'/consumos/' + ${subtipo.toLowerCase()} + '/eliminar/' + ${s.codConsumo}}" method="post" style="display:inline">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Eliminar?')"><i class="bi bi-trash"></i></button>
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </th:block></body></html>

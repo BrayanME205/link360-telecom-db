@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: content}">
+    <body><th:block th:fragment="content">
+        <div class="mb-4">
+            <h2><i class="bi bi-grid me-2"></i><span th:text="${modoEdicion}?'Editar Plan':'Nuevo Plan'"></span></h2>
+            <a th:href="@{/planes}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>Volver</a>
+        </div>
+        <div class="card shadow-sm" style="max-width:750px;">
+            <div class="card-header"><strong th:text="${modoEdicion}?'Datos del Plan':'Registro de Nuevo Plan'"></strong></div>
+            <div class="card-body">
+                <form th:action="${modoEdicion}?@{/planes/editar/{id}(id=${plan.codPlan})}:@{/planes/nuevo}"
+                      th:object="${plan}" method="post">
+                    <div class="row">
+                        <div class="col-md-4 mb-3" th:if="${!modoEdicion}">
+                            <label class="form-label fw-bold">Código <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" th:field="*{codPlan}" required/>
+                        </div>
+                        <div class="col-md-4 mb-3" th:if="${modoEdicion}">
+                            <label class="form-label fw-bold">Código</label>
+                            <input type="text" class="form-control" th:value="${plan.codPlan}" readonly/>
+                        </div>
+                        <div class="col-md-8 mb-3">
+                            <label class="form-label fw-bold">Nombre <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" th:field="*{nombre}" required maxlength="100"/>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Categoría Comercial <span class="text-danger">*</span></label>
+                        <select class="form-select" th:field="*{codCategoria}" required>
+                            <option value="">-- Seleccione --</option>
+                            <option th:each="c : ${categorias}"
+                                    th:value="${c.codCategoria}"
+                                    th:text="${c.descripcion} + ' (' + ${c.velocidadMaxima} + ')'"
+                                    th:selected="${plan.codCategoria == c.codCategoria}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Descripción</label>
+                        <textarea class="form-control" th:field="*{descripcion}" rows="2" maxlength="255"></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label fw-bold">Cuota Mensual (₡) <span class="text-danger">*</span></label>
+                            <input type="number" step="0.01" class="form-control" th:field="*{cuotaMensual}" required/>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label fw-bold">GB Incluidos <span class="text-danger">*</span></label>
+                            <input type="number" step="0.01" class="form-control" th:field="*{gb}" required/>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label fw-bold">Costo por Exceso (₡) <span class="text-danger">*</span></label>
+                            <input type="number" step="0.01" class="form-control" th:field="*{costoExceso}" required/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Minutos Incluidos <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" th:field="*{minutos}" required min="0"/>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Mensajes Incluidos <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" th:field="*{mensajes}" required min="0"/>
+                        </div>
+                    </div>
+                    <div class="mb-3" th:if="${modoEdicion}">
+                        <label class="form-label fw-bold">Estado</label>
+                        <select class="form-select" th:field="*{estado}">
+                            <option value="A">Activo</option><option value="I">Inactivo</option>
+                        </select>
+                    </div>
+                    <hr/>
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary"><i class="bi bi-save me-1"></i><span th:text="${modoEdicion}?'Guardar Cambios':'Registrar Plan'"></span></button>
+                        <a th:href="@{/planes}" class="btn btn-outline-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </th:block></body></html>

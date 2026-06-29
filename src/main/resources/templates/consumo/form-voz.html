@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: content}">
+    <body><th:block th:fragment="content">
+        <div class="mb-4">
+            <h2><i class="bi bi-telephone-fill me-2"></i><span th:text="${modoEdicion}?'Editar Consumo Voz':'Nuevo Consumo de Voz'"></span></h2>
+            <a th:href="@{/consumos/voz}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>Volver</a>
+        </div>
+        <div class="card shadow-sm" style="max-width:600px;">
+            <div class="card-header"><strong>Datos del Subtipo Voz</strong></div>
+            <div class="card-body">
+                <div class="alert alert-info mb-3"><i class="bi bi-info-circle me-1"></i>El consumo base (CONSUMO) debe existir previamente. Aquí se registran los datos específicos de voz.</div>
+                <form th:action="${modoEdicion}?@{/consumos/voz/editar/{id}(id=${voz.codConsumo})}:@{/consumos/voz/nuevo}"
+                      th:object="${voz}" method="post">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Consumo Base <span class="text-danger">*</span></label>
+                        <select class="form-select" th:field="*{codConsumo}" required th:disabled="${modoEdicion}">
+                            <option value="">-- Seleccione consumo --</option>
+                            <option th:each="c : ${consumos}"
+                                    th:value="${c.codConsumo}"
+                                    th:text="'#' + ${c.codConsumo} + ' — ' + ${c.numeroTelefono} + ' (' + ${c.tipoConsumo} + ')'"
+                                    th:selected="${voz.codConsumo == c.codConsumo}"></option>
+                        </select>
+                        <input type="hidden" th:if="${modoEdicion}" th:name="codConsumo" th:value="${voz.codConsumo}"/>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Número Destino <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" th:field="*{numDestino}" required maxlength="20"/>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Duración (segundos) <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" th:field="*{duracion}" required min="1"/>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">País Destino <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" th:field="*{paisDestino}" required maxlength="60"/>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Descripción</label>
+                        <textarea class="form-control" th:field="*{descripcion}" rows="2" maxlength="255"></textarea>
+                    </div>
+                    <div class="mb-3" th:if="${modoEdicion}">
+                        <label class="form-label fw-bold">Estado</label>
+                        <select class="form-select" th:field="*{estado}">
+                            <option value="A">Activo</option><option value="I">Inactivo</option>
+                        </select>
+                    </div>
+                    <hr/>
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary"><i class="bi bi-save me-1"></i><span th:text="${modoEdicion}?'Guardar':'Registrar'"></span></button>
+                        <a th:href="@{/consumos/voz}" class="btn btn-outline-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </th:block></body></html>

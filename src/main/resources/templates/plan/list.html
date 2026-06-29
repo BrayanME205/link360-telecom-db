@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: content}">
+    <body><th:block th:fragment="content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2><i class="bi bi-grid me-2"></i>Planes Tarifarios</h2>
+            <a th:href="@{/planes/nuevo}" class="btn btn-primary"><i class="bi bi-plus-lg me-1"></i>Nuevo Plan</a>
+        </div>
+        <div class="card shadow-sm">
+            <div class="card-header"><strong>Planes Registrados</strong></div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead><tr><th>#</th><th>Nombre</th><th>Categoría</th><th>Cuota Mensual</th><th>GB</th><th>Minutos</th><th>Mensajes</th><th>Estado</th><th class="text-center">Acciones</th></tr></thead>
+                        <tbody>
+                            <tr th:if="${#lists.isEmpty(planes)}"><td colspan="9" class="text-center text-muted py-4">No hay planes registrados.</td></tr>
+                            <tr th:each="p : ${planes}">
+                                <td th:text="${p.codPlan}"></td>
+                                <td th:text="${p.nombre}"></td>
+                                <td th:text="${p.nombreCategoria}"></td>
+                                <td th:text="'₡' + ${#numbers.formatDecimal(p.cuotaMensual,1,'COMMA',2,'POINT')}"></td>
+                                <td th:text="${p.gb} + ' GB'"></td>
+                                <td th:text="${p.minutos}"></td>
+                                <td th:text="${p.mensajes}"></td>
+                                <td><span th:class="${p.estado=='A'?'badge bg-success':'badge bg-secondary'}" th:text="${p.estado=='A'?'Activo':'Inactivo'}"></span></td>
+                                <td class="text-center">
+                                    <a th:href="@{/planes/editar/{id}(id=${p.codPlan})}" class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-pencil"></i></a>
+                                    <a th:href="@{/planes/eliminar/{id}(id=${p.codPlan})}" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </th:block></body></html>

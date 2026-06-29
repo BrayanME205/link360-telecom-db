@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: content}">
+    <body><th:block th:fragment="content">
+        <div class="mb-4"><h2><i class="bi bi-exclamation-triangle text-danger me-2"></i>Confirmar Eliminación</h2></div>
+        <div class="card shadow-sm border-danger" style="max-width:600px;">
+            <div class="card-header bg-danger text-white"><strong>¿Eliminar este plan?</strong></div>
+            <div class="card-body">
+                <dl class="row mb-3">
+                    <dt class="col-sm-4">Código</dt><dd class="col-sm-8" th:text="${plan.codPlan}"></dd>
+                    <dt class="col-sm-4">Nombre</dt><dd class="col-sm-8" th:text="${plan.nombre}"></dd>
+                    <dt class="col-sm-4">Cuota</dt><dd class="col-sm-8" th:text="'₡' + ${plan.cuotaMensual}"></dd>
+                </dl>
+                <div th:if="${cascadeWarning}" class="alert alert-warning"><h6 class="alert-heading"><i class="bi bi-exclamation-triangle me-1"></i>Advertencia</h6><p class="mb-0" th:text="${cascadeWarning}"></p></div>
+                <div th:if="${cascadeWarning == null}" class="alert alert-info"><i class="bi bi-info-circle me-1"></i>No hay registros dependientes. La eliminación es segura.</div>
+                <form th:action="@{/planes/eliminar/{id}(id=${plan.codPlan})}" method="post">
+                    <div class="d-flex gap-2 mt-3">
+                        <button type="submit" class="btn btn-danger" th:disabled="${cascadeWarning != null}"><i class="bi bi-trash me-1"></i>Eliminar</button>
+                        <a th:href="@{/planes}" class="btn btn-outline-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </th:block></body></html>
