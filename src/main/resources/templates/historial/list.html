@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: content}">
+    <body><th:block th:fragment="content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2><i class="bi bi-clock-history me-2"></i>Historial de Paquetes</h2>
+            <a th:href="@{/historial-paquetes/nuevo}" class="btn btn-primary"><i class="bi bi-plus-lg me-1"></i>Nuevo Registro</a>
+        </div>
+        <div class="card shadow-sm">
+            <div class="card-header"><strong>Historial de Adquisición de Paquetes</strong></div>
+            <div class="card-body p-0">
+                <table class="table table-hover mb-0">
+                    <thead><tr><th>Línea</th><th>Paquete</th><th>Adquisición</th><th>Vencimiento</th><th>Estado</th><th class="text-center">Acciones</th></tr></thead>
+                    <tbody>
+                        <tr th:if="${#lists.isEmpty(historiales)}"><td colspan="6" class="text-center text-muted py-4">No hay registros en el historial.</td></tr>
+                        <tr th:each="h : ${historiales}">
+                            <td th:text="${h.numeroTelefono}"></td>
+                            <td th:text="${h.nombrePaquete}"></td>
+                            <td th:text="${#temporals.format(h.fechaAdquisicion,'dd/MM/yyyy')}"></td>
+                            <td th:text="${h.fechaVencimiento != null ? #temporals.format(h.fechaVencimiento,'dd/MM/yyyy') : '—'}"></td>
+                            <td><span th:class="${h.estado=='A'?'badge bg-success':'badge bg-secondary'}" th:text="${h.estado=='A'?'Activo':'Inactivo'}"></span></td>
+                            <td class="text-center">
+                                <a th:href="@{/historial-paquetes/editar/{n}/{cp}/{f}(n=${h.numeroTelefono},cp=${h.codPaquete},f=${h.fechaAdquisicion})}" class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-pencil"></i></a>
+                                <a th:href="@{/historial-paquetes/eliminar/{n}/{cp}/{f}(n=${h.numeroTelefono},cp=${h.codPaquete},f=${h.fechaAdquisicion})}" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </th:block></body></html>

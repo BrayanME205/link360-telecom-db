@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: content}">
+    <body><th:block th:fragment="content">
+        <div class="mb-4">
+            <h2><i class="bi bi-gift me-2"></i><span th:text="${modoEdicion}?'Editar Redención':'Nueva Redención de Puntos'"></span></h2>
+            <a th:href="@{/redenciones}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>Volver</a>
+        </div>
+        <div class="card shadow-sm" style="max-width:600px;">
+            <div class="card-header"><strong th:text="${modoEdicion}?'Datos de la Redención':'Registro de Nueva Redención'"></strong></div>
+            <div class="card-body">
+                <form th:action="${modoEdicion}?@{/redenciones/editar/{c}/{nf}/{f}(c=${redencion.cedula},nf=${redencion.numFactura},f=${redencion.fechaRedencion})}:@{/redenciones/nuevo}"
+                      th:object="${redencion}" method="post">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Registro de Puntos (Cliente / Factura) <span class="text-danger">*</span></label>
+                        <select class="form-select" required th:disabled="${modoEdicion}"
+                                onchange="splitPK(this.value)">
+                            <option value="">-- Seleccione --</option>
+                            <option th:each="p : ${puntos}"
+                                    th:value="${p.cedula} + '|' + ${p.numFactura}"
+                                    th:text="${p.nombreCliente} + ' — Factura #' + ${p.numFactura} + ' — Saldo: ' + ${p.saldoActual}"
+                                    th:selected="${redencion.cedula == p.cedula and redencion.numFactura == p.numFactura}">
+                            </option>
+                        </select>
+                        <input type="hidden" id="cedula" th:field="*{cedula}"/>
+                        <input type="hidden" id="numFactura" th:field="*{numFactura}"/>
+                    </div>
+                    <div class="mb-3" th:if="${!modoEdicion}">
+                        <label class="form-label fw-bold">Fecha y Hora de Redención <span class="text-danger">*</span></label>
+                        <input type="datetime-local" class="form-control" th:field="*{fechaRedencion}" required/>
+                    </div>
+                    <div class="mb-3" th:if="${modoEdicion}">
+                        <label class="form-label fw-bold">Fecha y Hora de Redención</label>
+                        <input type="text" class="form-control" th:value="${redencion.fechaRedencion}" readonly/>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Cantidad Redimida <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" th:field="*{cantidadRedimida}" required min="1"/>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Saldo Resultante <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" th:field="*{saldoResultante}" required min="0"/>
+                        </div>
+                    </div>
+                    <div class="mb-3" th:if="${modoEdicion}">
+                        <label class="form-label fw-bold">Estado</label>
+                        <select class="form-select" th:field="*{estado}">
+                            <option value="A">Activo</option><option value="I">Inactivo</option>
+                        </select>
+                    </div>
+                    <hr/>
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary"><i class="bi bi-save me-1"></i><span th:text="${modoEdicion}?'Guardar Cambios':'Registrar Redención'"></span></button>
+                        <a th:href="@{/redenciones}" class="btn btn-outline-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <script>
+            function splitPK(val) {
+                if (!val)
+                    return;
+                const parts = val.split('|');
+                document.getElementById('cedula').value = parts[0];
+                document.getElementById('numFactura').value = parts[1];
+            }
+        </script>
+    </th:block></body></html>

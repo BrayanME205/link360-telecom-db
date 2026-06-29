@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: content}">
+    <body><th:block th:fragment="content">
+        <div class="mb-4">
+            <h2><i class="bi bi-clock-history me-2"></i><span th:text="${modoEdicion}?'Editar Historial':'Nuevo Registro de Historial'"></span></h2>
+            <a th:href="@{/historial-paquetes}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>Volver</a>
+        </div>
+        <div class="card shadow-sm" style="max-width:600px;">
+            <div class="card-header"><strong th:text="${modoEdicion}?'Datos del Historial':'Registrar Adquisición de Paquete'"></strong></div>
+            <div class="card-body">
+                <form th:action="${modoEdicion}?@{/historial-paquetes/editar/{n}/{cp}/{f}(n=${historial.numeroTelefono},cp=${historial.codPaquete},f=${historial.fechaAdquisicion})}:@{/historial-paquetes/nuevo}"
+                      th:object="${historial}" method="post">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Línea Móvil <span class="text-danger">*</span></label>
+                        <select class="form-select" th:field="*{numeroTelefono}" required th:disabled="${modoEdicion}">
+                            <option value="">-- Seleccione --</option>
+                            <option th:each="l : ${lineas}"
+                                    th:value="${l.numeroTelefono}"
+                                    th:text="${l.numeroTelefono}"
+                                    th:selected="${historial.numeroTelefono == l.numeroTelefono}">
+                            </option>
+                        </select>
+                        <input type="hidden" th:if="${modoEdicion}" th:name="numeroTelefono" th:value="${historial.numeroTelefono}"/>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Paquete <span class="text-danger">*</span></label>
+                        <select class="form-select" th:field="*{codPaquete}" required th:disabled="${modoEdicion}">
+                            <option value="">-- Seleccione --</option>
+                            <option th:each="p : ${paquetes}"
+                                    th:value="${p.codPaquete}"
+                                    th:text="${p.nombre} + ' (' + ${p.capacidadGB} + ' GB — ₡' + ${p.precio} + ')'"
+                                    th:selected="${historial.codPaquete == p.codPaquete}">
+                            </option>
+                        </select>
+                        <input type="hidden" th:if="${modoEdicion}" th:name="codPaquete" th:value="${historial.codPaquete}"/>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Fecha de Adquisición <span class="text-danger">*</span></label>
+                            <input type="date" class="form-control" th:field="*{fechaAdquisicion}" required th:disabled="${modoEdicion}"/>
+                            <input type="hidden" th:if="${modoEdicion}" th:name="fechaAdquisicion" th:value="${historial.fechaAdquisicion}"/>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label fw-bold">Fecha de Vencimiento</label>
+                            <input type="date" class="form-control" th:field="*{fechaVencimiento}"/>
+                        </div>
+                    </div>
+                    <div class="mb-3" th:if="${modoEdicion}">
+                        <label class="form-label fw-bold">Estado</label>
+                        <select class="form-select" th:field="*{estado}">
+                            <option value="A">Activo</option><option value="I">Inactivo</option>
+                        </select>
+                    </div>
+                    <hr/>
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary"><i class="bi bi-save me-1"></i><span th:text="${modoEdicion}?'Guardar Cambios':'Registrar'"></span></button>
+                        <a th:href="@{/historial-paquetes}" class="btn btn-outline-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </th:block></body></html>

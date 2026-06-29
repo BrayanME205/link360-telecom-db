@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: content}">
+    <body><th:block th:fragment="content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2><i class="bi bi-list-check me-2"></i>Conceptos de Cobro</h2>
+            <a th:href="@{/conceptos-cobro/nuevo}" class="btn btn-primary"><i class="bi bi-plus-lg me-1"></i>Nuevo Concepto</a>
+        </div>
+        <div class="card shadow-sm">
+            <div class="card-header"><strong>Conceptos Registrados</strong></div>
+            <div class="card-body p-0">
+                <table class="table table-hover mb-0">
+                    <thead><tr><th>Factura #</th><th>Tipo Concepto</th><th>Descripción</th><th>Monto</th><th>Estado</th><th class="text-center">Acciones</th></tr></thead>
+                    <tbody>
+                        <tr th:if="${#lists.isEmpty(conceptos)}"><td colspan="6" class="text-center text-muted py-4">No hay conceptos registrados.</td></tr>
+                        <tr th:each="c : ${conceptos}">
+                            <td th:text="${c.numFactura}"></td>
+                            <td th:text="${c.tipoConcepto}"></td>
+                            <td th:text="${c.descripcion}"></td>
+                            <td th:text="'₡' + ${#numbers.formatDecimal(c.montoCobro,1,'COMMA',2,'POINT')}"></td>
+                            <td><span th:class="${c.estado=='A'?'badge bg-success':'badge bg-secondary'}" th:text="${c.estado=='A'?'Activo':'Inactivo'}"></span></td>
+                            <td class="text-center">
+                                <a th:href="@{/conceptos-cobro/editar/{nf}/{t}(nf=${c.numFactura},t=${c.tipoConcepto})}" class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-pencil"></i></a>
+                                <a th:href="@{/conceptos-cobro/eliminar/{nf}/{t}(nf=${c.numFactura},t=${c.tipoConcepto})}" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </th:block></body></html>
