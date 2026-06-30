@@ -1,12 +1,15 @@
 package com.link360.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class HomeController {
+
     @GetMapping("/")
-    public String home() {
-        return "redirect:/clientes";
+    public String home(Model model) {
+        model.addAttribute("activeMenu", "dashboard");
+        return "home";
     }
 }

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: content}">
+    <body><th:block th:fragment="content">
+        <div class="mb-4">
+            <h2><i class="bi bi-search me-2"></i><span th:text="${titulo}"></span></h2>
+            <p class="text-muted" th:text="${descripcion}"></p>
+            <a th:href="@{/consultas}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i>Volver a consultas</a>
+        </div>
+
+        <div class="card shadow-sm">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover table-sm mb-0">
+                        <thead>
+                            <tr>
+                                <th th:each="col : ${resultados != null and !#lists.isEmpty(resultados)} ? ${resultados[0].keySet()} : {}"
+                                    th:text="${col}"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:if="${resultados == null or #lists.isEmpty(resultados)}">
+                                <td class="text-center text-muted py-4">No hay datos para esta consulta en este momento.</td>
+                            </tr>
+                            <tr th:each="row : ${resultados}">
+                                <td th:each="col : ${row.keySet()}" th:text="${row.get(col)}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer text-muted" th:if="${resultados != null and !#lists.isEmpty(resultados)}">
+                Total: <strong th:text="${#lists.size(resultados)}"></strong> registro(s)
+            </div>
+        </div>
+    </th:block></body></html>
