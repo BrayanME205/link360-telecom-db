@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: content}">
+    <body><th:block th:fragment="content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2><i class="bi bi-x-circle me-2"></i>Incompatibilidad de Descuentos</h2>
+            <a th:href="@{/desc-incompatible/nuevo}" class="btn btn-primary"><i class="bi bi-plus-lg me-1"></i>Nueva Incompatibilidad</a>
+        </div>
+        <div class="alert alert-info"><i class="bi bi-info-circle me-1"></i>Relación reflexiva simétrica: al registrar A↔B, un trigger inserta automáticamente B↔A.</div>
+        <div class="card shadow-sm">
+            <div class="card-body p-0">
+                <table class="table table-hover mb-0">
+                    <thead><tr><th>Descuento 1</th><th>Descuento 2</th><th>Estado</th><th class="text-center">Acciones</th></tr></thead>
+                    <tbody>
+                        <tr th:if="${#lists.isEmpty(registros)}"><td colspan="4" class="text-center text-muted py-4">No hay incompatibilidades.</td></tr>
+                        <tr th:each="r : ${registros}">
+                            <td th:text="${r.descripcionDesc1}"></td>
+                            <td th:text="${r.descripcionDesc2}"></td>
+                            <td><span th:class="${r.estado=='A'?'badge bg-success':'badge bg-secondary'}" th:text="${r.estado=='A'?'Activo':'Inactivo'}"></span></td>
+                            <td class="text-center">
+                                <form th:action="@{/desc-incompatible/eliminar/{d1}/{d2}(d1=${r.codDescuento1},d2=${r.codDescuento2})}" method="post" style="display:inline">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Eliminar esta incompatibilidad?')"><i class="bi bi-trash"></i></button>
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </th:block></body></html>
