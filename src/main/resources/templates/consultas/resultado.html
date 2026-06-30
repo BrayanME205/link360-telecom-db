@@ -13,7 +13,7 @@
                     <table class="table table-hover table-sm mb-0">
                         <thead>
                             <tr>
-                                <th th:each="col : ${resultados != null and !#lists.isEmpty(resultados)} ? ${resultados[0].keySet()} : {}"
+                                <th th:each="col : ${(resultados != null and !#lists.isEmpty(resultados)) ? resultados[0].keySet() : {}}"
                                     th:text="${col}"></th>
                             </tr>
                         </thead>

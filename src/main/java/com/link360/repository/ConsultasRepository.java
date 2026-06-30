@@ -49,7 +49,7 @@ public class ConsultasRepository {
     public List<Map<String, Object>> planesActivosConPromociones() {
         return jdbc.queryForList(
                 "SELECT l.NumeroTelefono, c.Nombre + ' ' + c.PrimerApellido AS Cliente, "
-                + "p.Nombre AS Plan, p.CuotaMensual, cat.Descripcion AS Categoria, cat.VelocidadMaxima, "
+                + "p.Nombre AS [Plan], p.CuotaMensual, cat.Descripcion AS Categoria, cat.VelocidadMaxima, "
                 + "lp.FechaInicio AS InicioContrato, "
                 + "STRING_AGG(pr.Nombre, ', ') AS Promociones "
                 + "FROM LINEAPLAN lp "
