@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{layout/base :: content}">
+      th:replace="~{layout/base :: layout(~{cliente/list :: content})}">
 <body>
 <th:block th:fragment="content">
 

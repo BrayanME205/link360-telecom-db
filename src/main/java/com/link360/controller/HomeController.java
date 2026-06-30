@@ -10,6 +10,6 @@ public class HomeController {
     @GetMapping("/")
     public String home(Model model) {
         model.addAttribute("activeMenu", "dashboard");
-        return "home";
+        return "home/home";
     }
 }

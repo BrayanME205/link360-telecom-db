@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: content}">
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: layout(~{linea/form :: content})}">
     <body><th:block th:fragment="content">
         <div class="mb-4">
             <h2><i class="bi bi-sim me-2"></i><span th:text="${modoEdicion}?'Editar Línea Móvil':'Nueva Línea Móvil'"></span></h2>

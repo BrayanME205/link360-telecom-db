@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: content}">
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: layout(~{consumo/form-simple :: content})}">
     <body><th:block th:fragment="content">
         <div class="mb-4">
             <h2><i class="bi bi-bar-chart me-2"></i>Nuevo Consumo <span th:text="${subtipo}"></span></h2>
