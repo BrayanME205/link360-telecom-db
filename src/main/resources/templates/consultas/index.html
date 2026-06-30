@@ -3,7 +3,6 @@
     <body><th:block th:fragment="content">
         <div class="mb-4">
             <h2><i class="bi bi-search me-2"></i>Consultas Elaboradas</h2>
-            <p class="text-muted">Selecciona una consulta para ver los resultados con JOINs y operadores SQL aplicados.</p>
         </div>
 
         <div class="row g-3">
@@ -11,7 +10,6 @@
                 <div class="card shadow-sm h-100">
                     <div class="card-body">
                         <h5 class="card-title"><i class="bi bi-person-vcard text-primary me-2"></i>Resumen Mensual del Cliente</h5>
-                        <p class="card-text small text-muted">Vista consolidada (VW_RESUMEN_MENSUAL_CLIENTE) con cliente, línea, plan y facturación.</p>
                         <a th:href="@{/consultas/resumen-mensual}" class="btn btn-sm btn-primary">Ver consulta</a>
                     </div>
                 </div>
@@ -29,7 +27,7 @@
                 <div class="card shadow-sm h-100">
                     <div class="card-body">
                         <h5 class="card-title"><i class="bi bi-receipt text-primary me-2"></i>Facturas Pendientes</h5>
-                        <p class="card-text small text-muted">Facturas vencidas o pendientes con días de atraso (DATEDIFF).</p>
+                        <p class="card-text small text-muted">Facturas vencidas o pendientes con días de atraso.</p>
                         <a th:href="@{/consultas/facturas-pendientes}" class="btn btn-sm btn-primary">Ver consulta</a>
                     </div>
                 </div>
@@ -38,7 +36,6 @@
                 <div class="card shadow-sm h-100">
                     <div class="card-body">
                         <h5 class="card-title"><i class="bi bi-grid text-primary me-2"></i>Planes con Promociones</h5>
-                        <p class="card-text small text-muted">STRING_AGG para concatenar promociones aplicadas por plan.</p>
                         <a th:href="@{/consultas/planes-promociones}" class="btn btn-sm btn-primary">Ver consulta</a>
                     </div>
                 </div>
@@ -47,7 +44,6 @@
                 <div class="card shadow-sm h-100">
                     <div class="card-body">
                         <h5 class="card-title"><i class="bi bi-star text-primary me-2"></i>Top 10 Clientes por Puntos</h5>
-                        <p class="card-text small text-muted">FORMAT para presentar números con separador de miles.</p>
                         <a th:href="@{/consultas/top-puntos}" class="btn btn-sm btn-primary">Ver consulta</a>
                     </div>
                 </div>
@@ -65,7 +61,6 @@
                 <div class="card shadow-sm h-100 border-info">
                     <div class="card-body">
                         <h5 class="card-title"><i class="bi bi-shield-check text-info me-2"></i>Pistas de Auditoría</h5>
-                        <p class="card-text small text-muted">UNION ALL de registros de auditoría entre múltiples tablas.</p>
                         <a th:href="@{/consultas/auditoria}" class="btn btn-sm btn-info">Ver consulta</a>
                     </div>
                 </div>
